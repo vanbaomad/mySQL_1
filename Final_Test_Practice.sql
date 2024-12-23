@@ -201,10 +201,22 @@ WHERE (
     FROM actor_award
     WHERE actor_id = aa.actor_id
 ) = 3;
-
-
-
-
-
-
+SELECT 
+    COUNT(DISTINCT fa.actor_id) * 100.0 / COUNT(DISTINCT aa.actor_id) AS two_awards_coverage
+FROM actor_award aa
+JOIN film_actor fa ON aa.actor_id = fa.actor_id
+WHERE (
+    SELECT COUNT(DISTINCT awards)
+    FROM actor_award
+    WHERE actor_id = aa.actor_id
+) = 2;
+SELECT 
+    COUNT(DISTINCT fa.actor_id) * 100.0 / COUNT(DISTINCT aa.actor_id) AS one_award_coverage
+FROM actor_award aa
+JOIN film_actor fa ON aa.actor_id = fa.actor_id
+WHERE (
+    SELECT COUNT(DISTINCT awards)
+    FROM actor_award
+    WHERE actor_id = aa.actor_id
+) = 1;
 
