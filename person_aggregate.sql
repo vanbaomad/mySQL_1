@@ -11,6 +11,7 @@ WHERE address LIKE '1%y';
 SELECT address
 FROM address
 WHERE SUBSTR(address, 3, 1) = 'a';
+use sakila;
 -- cau 4
 SELECT first_name, last_name
 FROM customer
@@ -26,6 +27,27 @@ WHERE category.name = 'Games';
 SELECT *
 FROM person
 WHERE salary BETWEEN 2000 AND 3000;
+-- cau 7
+SELECT a.actor_id, a.first_name, a.last_name, COUNT(fa.film_id) AS film_count
+FROM actor a
+JOIN film_actor fa ON a.actor_id = fa.actor_id
+GROUP BY a.actor_id, a.first_name, a.last_name
+HAVING film_count > 30
+ORDER BY film_count DESC;
+-- cau 8
+SELECT a.actor_id, a.first_name, a.last_name
+FROM actor a
+LEFT JOIN film_actor fa ON a.actor_id = fa.actor_id
+WHERE fa.actor_id IS NULL;
+-- cau 9
+SELECT f.title, SUM(p.amount) AS total_revenue
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+JOIN payment p ON r.rental_id = p.rental_id
+GROUP BY f.film_id, f.title
+ORDER BY total_revenue DESC;
+
 
 
 
